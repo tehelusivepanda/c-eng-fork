@@ -62,8 +62,6 @@ public class EasterEggTriggers {
 
     @Subscribe
     public void onMenuOptionClicked(MenuOptionClicked menuOptionClicked) {
-        if (!config.easterEggs())
-            return;
 
         if (menuOptionClicked.getId() == ID_OBJECT_LUMCASTLE_GROUND_LEVEL_STAIRCASE && menuOptionClicked.getMenuOption().equals("Climb-up")) {
             Scene scene = client.getWorldView(menuOptionClicked.getMenuEntry().getWorldViewId()).getScene();
@@ -79,8 +77,6 @@ public class EasterEggTriggers {
 
     @Subscribe
     public void onGrandExchangeOfferChanged(GrandExchangeOfferChanged offerEvent) {
-        if (!config.easterEggs())
-            return;
 
         if (loggedInState.isLoggedOut() || loggedInState.onlyJustLoggedIn(3)) {
             return; // Ignoring offer change as likely simply because user just logged in
@@ -103,9 +99,6 @@ public class EasterEggTriggers {
     @Subscribe
     public void onChatMessage(ChatMessage chatMessage) {
         if (chatMessage.getType() != ChatMessageType.GAMEMESSAGE && chatMessage.getType() != ChatMessageType.SPAM)
-            return;
-
-        if (!config.easterEggs())
             return;
 
         if (STRAY_DOG_GIVEN_BONES_REGEX.matcher(chatMessage.getMessage()).matches()) {

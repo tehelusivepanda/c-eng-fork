@@ -85,8 +85,6 @@ public class AnimationTriggers {
             babaTroll();
         } else if (animationId == SMOOTH_DANCE) {
             smoothDanceTrolls();
-        } else if (animationId == DIANGO_CLAWS) {
-            diangoClawsTroll();
         }
     }
 
@@ -125,15 +123,6 @@ public class AnimationTriggers {
                 soundEngine.playClip(Sound.QUEST, executor);
                 break;
             default: break;
-        }
-    }
-
-    private void diangoClawsTroll() {
-        if (cEngineer.tilesFrom(client.getLocalPlayer()) > 10)
-            return;
-
-        if (cEngineer.isWearingAttackTrollRequirements()) {
-            soundEngine.playClip(Sound.ATTACK_TROLL_DC, executor);
         }
     }
 }

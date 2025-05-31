@@ -76,8 +76,6 @@ public class PorkNChubPlugin extends Plugin {
         eventBus.register(loggedInState);
         loggedInState.setForCurrentGameState(client.getGameState());
         announcementTriggers.initialise();
-
-        executor.submit(() -> SoundFileManager.prepareSoundFiles(okHttpClient, config.downloadStreamerTrolls()));
     }
 
     @Override

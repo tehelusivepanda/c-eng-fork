@@ -329,7 +329,7 @@ public class AnnouncementTriggers {
             return;
 
         // Death easter egg and normal announcement kept together to make it one or the other, never both
-        if (config.easterEggs() || config.announceDeath()) {
+        if (config.announceDeath()) {
             diedToCEngineer();
         }
     }
