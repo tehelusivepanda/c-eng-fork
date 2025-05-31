@@ -1,10 +1,10 @@
-package com.github.m0bilebtw.eastereggs;
+package com.github.tehelusivepanda.eastereggs;
 
-import com.github.m0bilebtw.CEngineerCompletedConfig;
-import com.github.m0bilebtw.player.CEngineerPlayer;
-import com.github.m0bilebtw.player.LoggedInState;
-import com.github.m0bilebtw.sound.Sound;
-import com.github.m0bilebtw.sound.SoundEngine;
+import com.github.tehelusivepanda.PorkNChubHelperConfig;
+import com.github.tehelusivepanda.player.PorkNChub;
+import com.github.tehelusivepanda.player.LoggedInState;
+import com.github.tehelusivepanda.sound.Sound;
+import com.github.tehelusivepanda.sound.SoundEngine;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
 import net.runelite.api.GrandExchangeOffer;
@@ -43,7 +43,7 @@ public class EasterEggTriggers {
     private Client client;
 
     @Inject
-    private CEngineerCompletedConfig config;
+    private PorkNChubHelperConfig config;
 
     @Inject
     private ScheduledExecutorService executor;
@@ -52,7 +52,7 @@ public class EasterEggTriggers {
     private SoundEngine soundEngine;
 
     @Inject
-    private CEngineerPlayer cEngineer;
+    private PorkNChub cEngineer;
 
     @Inject
     private LoggedInState loggedInState;

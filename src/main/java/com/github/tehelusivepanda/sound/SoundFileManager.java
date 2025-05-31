@@ -1,4 +1,4 @@
-package com.github.m0bilebtw.sound;
+package com.github.tehelusivepanda.sound;
 
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.client.RuneLite;

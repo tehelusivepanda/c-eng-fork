@@ -1,13 +1,12 @@
-package com.github.m0bilebtw;
+package com.github.tehelusivepanda;
 
-import com.github.m0bilebtw.announce.AnnouncementTriggers;
-import com.github.m0bilebtw.eastereggs.EasterEggTriggers;
-import com.github.m0bilebtw.player.CEngineerPlayer;
-import com.github.m0bilebtw.player.LoggedInState;
-import com.github.m0bilebtw.qol.QualityOfLifeTriggers;
-import com.github.m0bilebtw.sound.SoundEngine;
-import com.github.m0bilebtw.sound.SoundFileManager;
-import com.github.m0bilebtw.trolls.TrollTriggers;
+import com.github.tehelusivepanda.announce.AnnouncementTriggers;
+import com.github.tehelusivepanda.eastereggs.EasterEggTriggers;
+import com.github.tehelusivepanda.player.PorkNChub;
+import com.github.tehelusivepanda.player.LoggedInState;
+import com.github.tehelusivepanda.qol.QualityOfLifeTriggers;
+import com.github.tehelusivepanda.sound.SoundEngine;
+import com.github.tehelusivepanda.sound.SoundFileManager;
 import com.google.inject.Provides;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -25,12 +24,12 @@ import java.util.concurrent.ScheduledExecutorService;
 
 @Slf4j
 @PluginDescriptor(
-        name = "C Engineer: Completed",
-        description = "C Engineer announces when you complete an achievement",
+        name = "Pork N Chub",
+        description = "porked",
         tags = {"c engineer", "stats", "levels", "quests", "diary", "announce"}
 )
 
-public class CEngineerCompletedPlugin extends Plugin {
+public class PorkNChubPlugin extends Plugin {
     @Inject
     private Client client;
 
@@ -39,7 +38,7 @@ public class CEngineerCompletedPlugin extends Plugin {
     private ClientThread clientThread;
 
     @Inject
-    private CEngineerCompletedConfig config;
+    private PorkNChubHelperConfig config;
 
     @Inject
     private ScheduledExecutorService executor;
@@ -54,16 +53,13 @@ public class CEngineerCompletedPlugin extends Plugin {
     private SoundEngine soundEngine;
 
     @Inject
-    private CEngineerPlayer cEngineer;
+    private PorkNChub cEngineer;
 
     @Inject
     private AnnouncementTriggers announcementTriggers;
 
     @Inject
     private EasterEggTriggers easterEggTriggers;
-
-    @Inject
-    private TrollTriggers trollTriggers;
 
     @Inject
     private QualityOfLifeTriggers qolTriggers;
@@ -76,7 +72,6 @@ public class CEngineerCompletedPlugin extends Plugin {
         eventBus.register(cEngineer);
         eventBus.register(announcementTriggers);
         eventBus.register(easterEggTriggers);
-        eventBus.register(trollTriggers);
         eventBus.register(qolTriggers);
         eventBus.register(loggedInState);
         loggedInState.setForCurrentGameState(client.getGameState());
@@ -90,7 +85,6 @@ public class CEngineerCompletedPlugin extends Plugin {
         eventBus.unregister(cEngineer);
         eventBus.unregister(announcementTriggers);
         eventBus.unregister(easterEggTriggers);
-        eventBus.unregister(trollTriggers);
         eventBus.unregister(qolTriggers);
         eventBus.unregister(loggedInState);
 
@@ -99,7 +93,7 @@ public class CEngineerCompletedPlugin extends Plugin {
     }
 
     @Provides
-    CEngineerCompletedConfig provideConfig(ConfigManager configManager) {
-        return configManager.getConfig(CEngineerCompletedConfig.class);
+    PorkNChubHelperConfig provideConfig(ConfigManager configManager) {
+        return configManager.getConfig(PorkNChubHelperConfig.class);
     }
 }

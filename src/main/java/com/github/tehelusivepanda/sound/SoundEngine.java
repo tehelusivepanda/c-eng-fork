@@ -1,6 +1,6 @@
-package com.github.m0bilebtw.sound;
+package com.github.tehelusivepanda.sound;
 
-import com.github.m0bilebtw.CEngineerCompletedConfig;
+import com.github.tehelusivepanda.PorkNChubHelperConfig;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 public class SoundEngine {
 
     @Inject
-    private CEngineerCompletedConfig config;
+    private PorkNChubHelperConfig config;
 
     private static final long CLIP_MTIME_UNLOADED = -2;
 

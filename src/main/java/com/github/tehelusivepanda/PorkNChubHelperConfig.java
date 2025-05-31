@@ -1,4 +1,4 @@
-package com.github.m0bilebtw;
+package com.github.tehelusivepanda;
 
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
@@ -6,8 +6,8 @@ import net.runelite.client.config.ConfigItem;
 import net.runelite.client.config.ConfigSection;
 import net.runelite.client.config.Range;
 
-@ConfigGroup(CEngineerCompletedConfig.GROUP)
-public interface CEngineerCompletedConfig extends Config {
+@ConfigGroup(PorkNChubHelperConfig.GROUP)
+public interface PorkNChubHelperConfig extends Config {
     String GROUP = "cengineercompleted";
     String LEAGUES_TASK_HIDDEN_REMINDER_CONFIG = "needToRemindAboutDisablingLeaguesTasks";
 
@@ -232,45 +232,5 @@ public interface CEngineerCompletedConfig extends Config {
     )
     default int announcementVolume() {
         return 100;
-    }
-
-    @ConfigSection(
-            name = "Easter Eggs and Streamer Trolls",
-            description = "Settings for non-achievement sounds.",
-            position = 60
-    )
-    String SECTION_EASTER_EGGS_AND_STREAMERS = "Easter Eggs and Streamer Trolls";
-
-    @ConfigItem(
-            keyName = "easterEggs",
-            name = "Easter eggs",
-            description = "Should C Engineer comment on your gameplay? And maybe do a little trolling?",
-            section = SECTION_EASTER_EGGS_AND_STREAMERS,
-            position = 61
-    )
-    default boolean easterEggs() {
-        return true;
-    }
-
-    @ConfigItem(
-            keyName = "downloadStreamerSounds",
-            name = "Include streamer troll sounds (requires plugin restart)",
-            description = "Restart plugin to take effect! If disabled, will remove and no longer download sounds that are streamer trolls",
-            section = SECTION_EASTER_EGGS_AND_STREAMERS,
-            position = 62
-    )
-    default boolean downloadStreamerTrolls() {
-        return true;
-    }
-
-    @ConfigItem(
-            keyName = "muteSnowballsIfCEngineerIsNear",
-            name = "Stealthy snowballs when C Engineer is nearby",
-            description = "Mute snowball sound effects if C Engineer is nearby to allow for stealthier trolling",
-            section = SECTION_EASTER_EGGS_AND_STREAMERS,
-            position = 63
-    )
-    default boolean muteSnowballsIfCEngineerIsNear() {
-        return true;
     }
 }

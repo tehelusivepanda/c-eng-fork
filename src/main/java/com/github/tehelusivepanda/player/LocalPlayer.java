@@ -1,4 +1,4 @@
-package com.github.m0bilebtw.player;
+package com.github.tehelusivepanda.player;
 
 import net.runelite.api.Client;
 import net.runelite.api.Player;

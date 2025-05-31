@@ -1,25 +1,16 @@
-package com.github.m0bilebtw.announce;
+package com.github.tehelusivepanda.announce;
 
-import com.github.m0bilebtw.CEngineerCompletedConfig;
-import com.github.m0bilebtw.player.CEngineerPlayer;
-import com.github.m0bilebtw.player.LoggedInState;
-import com.github.m0bilebtw.sound.Sound;
-import com.github.m0bilebtw.sound.SoundEngine;
+import com.github.tehelusivepanda.PorkNChubHelperConfig;
+import com.github.tehelusivepanda.player.PorkNChub;
+import com.github.tehelusivepanda.player.LoggedInState;
+import com.github.tehelusivepanda.player.Pandamxnium;
+import com.github.tehelusivepanda.sound.Sound;
+import com.github.tehelusivepanda.sound.SoundEngine;
 import lombok.AccessLevel;
 import lombok.Getter;
-import net.runelite.api.ChatMessageType;
-import net.runelite.api.Client;
-import net.runelite.api.Experience;
-import net.runelite.api.GameState;
-import net.runelite.api.ItemID;
-import net.runelite.api.Skill;
-import net.runelite.api.Varbits;
+import net.runelite.api.*;
 import net.runelite.api.annotations.Varbit;
-import net.runelite.api.events.ActorDeath;
-import net.runelite.api.events.ChatMessage;
-import net.runelite.api.events.GameStateChanged;
-import net.runelite.api.events.StatChanged;
-import net.runelite.api.events.VarbitChanged;
+import net.runelite.api.events.*;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.chat.ChatColorType;
 import net.runelite.client.chat.ChatMessageBuilder;
@@ -29,6 +20,7 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.events.NpcLootReceived;
+import net.runelite.client.game.ItemManager;
 import net.runelite.client.game.ItemStack;
 import net.runelite.client.util.Text;
 
@@ -83,7 +75,7 @@ public class AnnouncementTriggers {
     private ScheduledExecutorService executor;
 
     @Inject
-    private CEngineerCompletedConfig config;
+    private PorkNChubHelperConfig config;
 
     @Inject
     private ConfigManager configManager;
@@ -92,7 +84,13 @@ public class AnnouncementTriggers {
     private SoundEngine soundEngine;
 
     @Inject
-    private CEngineerPlayer cEngineer;
+    private PorkNChub pork;
+
+    @Inject
+    private Pandamxnium panda;
+
+    @Inject
+    private ItemManager itemManager;
 
     @Inject
     private LoggedInState loggedInState;
@@ -163,7 +161,7 @@ public class AnnouncementTriggers {
 
         // If we get here, 'skill' was leveled up!
         if (config.announceLevelUp()) {
-            cEngineer.sendChatIfEnabled("Level up: completed.");
+            pork.sendChatIfEnabled("Level up: completed.");
             soundEngine.playClip(Sound.LEVEL_UP, executor);
         }
     }
@@ -190,7 +188,7 @@ public class AnnouncementTriggers {
             oldAchievementDiaries.put(diary, newValue);
             if (config.announceAchievementDiary() && previousValue != -1 && previousValue != newValue && isAchievementDiaryCompleted(diary, newValue)) {
                 // value was not unknown (we know the previous value), value has changed, and value indicates diary is completed now
-                cEngineer.sendChatIfEnabled("Achievement diary: completed.");
+                pork.sendChatIfEnabled("Achievement diary: completed.");
                 soundEngine.playClip(Sound.ACHIEVEMENT_DIARY, executor);
             }
         }
@@ -241,7 +239,7 @@ public class AnnouncementTriggers {
 
     @Subscribe
     public void onConfigChanged(ConfigChanged event) {
-        if (CEngineerCompletedConfig.GROUP.equals(event.getGroup())) {
+        if (PorkNChubHelperConfig.GROUP.equals(event.getGroup())) {
 
 			if ("announcementVolume".equals(event.getKey())) {
 				soundEngine.playClip(Sound.LEVEL_UP, executor);
@@ -258,41 +256,46 @@ public class AnnouncementTriggers {
             return;
 
         if (config.announceCollectionLog() && COLLECTION_LOG_ITEM_REGEX.matcher(chatMessage.getMessage()).matches()) {
-            cEngineer.sendChatIfEnabled("Collection log slot: completed.");
+            pork.sendChatIfEnabled("Collection log slot: completed.");
             soundEngine.playClip(Sound.COLLECTION_LOG_SLOT, executor);
 
         } else if (config.announceQuestCompletion() && QUEST_REGEX.matcher(chatMessage.getMessage()).matches()) {
-            cEngineer.sendChatIfEnabled("Quest: completed.");
+            pork.sendChatIfEnabled("Quest: completed.");
             soundEngine.playClip(Sound.QUEST, executor);
 
         } else if (config.announceCombatAchievement() && COMBAT_TASK_REGEX.matcher(chatMessage.getMessage()).matches()) {
-            cEngineer.sendChatIfEnabled("Combat task: completed.");
+            pork.sendChatIfEnabled("Combat task: completed.");
             soundEngine.playClip(Sound.COMBAT_TASK, executor);
 
         } else if (config.announceLeaguesTasks() && LEAGUES_TASK_REGEX.matcher(chatMessage.getMessage()).matches()) {
-            cEngineer.sendChatIfEnabled("Leagues task: completed.");
+            pork.sendChatIfEnabled("Leagues task: completed.");
             soundEngine.playClip(Sound.LEAGUES_TASK, executor);
 
             if (config.needToRemindAboutDisablingLeaguesTasks()) {
-                configManager.setConfiguration(CEngineerCompletedConfig.GROUP, CEngineerCompletedConfig.LEAGUES_TASK_HIDDEN_REMINDER_CONFIG, false);
+                configManager.setConfiguration(PorkNChubHelperConfig.GROUP, PorkNChubHelperConfig.LEAGUES_TASK_HIDDEN_REMINDER_CONFIG, false);
                 sendHighlightedMessageForLeaguesTaskSetting();
             }
 
         } else if (config.announceSlayerTasks() && SLAYER_TASK_REGEX.matcher(Text.removeTags(chatMessage.getMessage())).matches()) {
-            cEngineer.sendChatIfEnabled("Slayer task: completed.");
+            pork.sendChatIfEnabled("Slayer task: completed.");
             soundEngine.playClip(Sound.SLAYER_TASK, executor);
             return;
         }
 
         String standardizedMessage = Text.standardize(chatMessage.getMessage());
         if (config.announceHunterRumours() && HUNTER_RUMOUR_MESSAGE.equals(standardizedMessage)) {
-            cEngineer.sendChatIfEnabled("Hunter Rumour: completed.");
+            pork.sendChatIfEnabled("Hunter Rumour: completed.");
             soundEngine.playClip(Sound.HUNTER_RUMOUR, executor);
 
         } else if (config.announceFarmingContracts() && FARMING_CONTRACT_MESSAGE.equals(standardizedMessage)) {
-            cEngineer.sendChatIfEnabled("Farming Contract: completed.");
+            pork.sendChatIfEnabled("Farming Contract: completed.");
             soundEngine.playClip(Sound.FARMING_CONTRACT, executor);
         }
+    }
+
+    @Subscribe
+    public void onItemSpawned(ItemSpawned event) {
+        pork.sendChatIfEnabled("Woah you got a " + event.getItem().toString() + "!!");
     }
 
     @Subscribe
@@ -302,16 +305,20 @@ public class AnnouncementTriggers {
             int itemId = itemStack.getId();
 
             if (itemId == ItemID.GRUBBY_KEY && config.announceGrubbyKeyDrop()) {
-                cEngineer.sendChatIfEnabled("Another grubby key.");
+                pork.sendChatIfEnabled("Another grubby key.");
                 soundEngine.playClip(Sound.GRUBBY_KEY, executor);
 
             } else if (itemId == ItemID.LARRANS_KEY && config.announceLarransKeyDrop()) {
-                cEngineer.sendChatIfEnabled("Another Larran's key.");
+                pork.sendChatIfEnabled("Another Larran's key.");
                 soundEngine.playClip(Sound.LARRANS_KEY, executor);
 
             } else if (itemId == ItemID.BRIMSTONE_KEY && config.announceBrimstoneKeyDrop()) {
-                cEngineer.sendChatIfEnabled("Another brimstone key.");
+                pork.sendChatIfEnabled("Another brimstone key.");
                 soundEngine.playClip(Sound.BRIMSTONE_KEY, executor);
+            }
+
+            if (itemManager.getItemPriceWithSource(itemId, true) > 1000000) {
+                pork.sendChatIfEnabled("gzzzzzzzz");
             }
         }
     }
@@ -322,24 +329,22 @@ public class AnnouncementTriggers {
             return;
 
         // Death easter egg and normal announcement kept together to make it one or the other, never both
-        if (config.easterEggs() && cEngineer.wasFightingMeRecently()) {
+        if (config.easterEggs() || config.announceDeath()) {
             diedToCEngineer();
-        } else if (config.announceDeath()) {
-            diedToAnythingElse();
         }
     }
 
     private void diedToCEngineer() {
         if (random.nextBoolean()) {
-            cEngineer.sendChatIfEnabled("Dying to " + CEngineerPlayer.RSN + ": completed.");
+            pork.sendChatIfEnabled("Dying to " + PorkNChub.RSN + ": completed.");
         } else {
-            cEngineer.sendChatIfEnabled("Sit");
+            pork.sendChatIfEnabled("Sit");
         }
         soundEngine.playClip(Sound.DEATH_TO_C_ENGINEER, executor);
     }
 
     private void diedToAnythingElse() {
-        cEngineer.sendChatIfEnabled("Dying on my HCIM: completed.");
+        pork.sendChatIfEnabled("This is somehow Peter's fault...");
         soundEngine.playClip(Sound.DEATH, executor);
     }
 }

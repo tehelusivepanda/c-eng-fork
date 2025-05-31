@@ -1,13 +1,13 @@
-package com.github.m0bilebtw;
+package com.github.tehelusivepanda;
 
 import net.runelite.client.RuneLite;
 import net.runelite.client.externalplugins.ExternalPluginManager;
 
-public class CEngineerCompletedPluginTest
+public class PorkNChubTest
 {
 	public static void main(String[] args) throws Exception
 	{
-		ExternalPluginManager.loadBuiltin(CEngineerCompletedPlugin.class);
+		ExternalPluginManager.loadBuiltin(PorkNChubPlugin.class);
 		RuneLite.main(args);
 	}
 }

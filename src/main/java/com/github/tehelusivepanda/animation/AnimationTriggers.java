@@ -1,9 +1,9 @@
-package com.github.m0bilebtw.animation;
+package com.github.tehelusivepanda.animation;
 
-import com.github.m0bilebtw.player.CEngineerPlayer;
-import com.github.m0bilebtw.player.LocalPlayer;
-import com.github.m0bilebtw.sound.Sound;
-import com.github.m0bilebtw.sound.SoundEngine;
+import com.github.tehelusivepanda.player.PorkNChub;
+import com.github.tehelusivepanda.player.LocalPlayer;
+import com.github.tehelusivepanda.sound.Sound;
+import com.github.tehelusivepanda.sound.SoundEngine;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
 import net.runelite.api.coords.WorldArea;
@@ -18,11 +18,11 @@ import java.util.Optional;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static com.github.m0bilebtw.animation.AnimationID.DIANGO_CLAWS;
-import static com.github.m0bilebtw.animation.AnimationID.GENERIC_CHEST_OPEN;
-import static com.github.m0bilebtw.animation.AnimationID.PREMIER_SHIELD;
-import static com.github.m0bilebtw.animation.AnimationID.SMOOTH_DANCE;
-import static com.github.m0bilebtw.animation.AnimationID.TRICK;
+import static com.github.tehelusivepanda.animation.AnimationID.DIANGO_CLAWS;
+import static com.github.tehelusivepanda.animation.AnimationID.GENERIC_CHEST_OPEN;
+import static com.github.tehelusivepanda.animation.AnimationID.PREMIER_SHIELD;
+import static com.github.tehelusivepanda.animation.AnimationID.SMOOTH_DANCE;
+import static com.github.tehelusivepanda.animation.AnimationID.TRICK;
 
 public class AnimationTriggers {
 
@@ -39,7 +39,7 @@ public class AnimationTriggers {
     private ChatMessageManager chatMessageManager;
 
     @Inject
-    private CEngineerPlayer cEngineer;
+    private PorkNChub cEngineer;
 
     private static final WorldArea AKKHA_ROOM = new WorldArea(new WorldPoint(3671, 5398, 1), 29, 20);
     private static final WorldArea BABA_PUZZLE_ROOM = new WorldArea(new WorldPoint(3788, 5264, 0), 42, 31);
